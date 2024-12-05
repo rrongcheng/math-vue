@@ -5,11 +5,11 @@ import { generateAddition } from './models/QuestionGenerator';
 import './styles/question-vertical.css'; // Import the question-vertical.css file
 
 // Data
-const questionPerPage = ref(9);
+const questionPerPage = ref(98);
 const pageTotal = ref(1);
 const questionsEveryPages = ref([]);
 const pageQuestionLayout = ref(localStorage.getItem('pageQuestionLayout') || 'question-vertical'); // Retrieve from localStorage or set default
-const maxOutcome = ref(30)
+const maxOutcome = ref(50)
 // Methods
 
 function generateQuestions(){
@@ -18,8 +18,8 @@ function generateQuestions(){
     const questionsSinglePage = [];
     for (let j = 0; j < questionPerPage.value; j++) {
       questionsSinglePage.push(generateAddition({
-        maxOutcome: 30,
-        minOutcome: 4,
+        maxOutcome: 50,
+        minOutcome: 30,
         minNumber: 2,
       }));
     }

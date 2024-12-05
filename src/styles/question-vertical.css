@@ -1,6 +1,52 @@
 .question-vertical {
+  /* Container of questions */
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-content: space-between;
+  align-content: space-between;  
+  font-size: 14pt;
+}
+.question-vertical .question {
+  min-width: 20mm;
+  border: 1px dotted gray;
+  padding-top: 2mm;
+  padding-bottom: 2mm;
+  padding-left: 2mm;
+  padding-right: 2mm;
+  text-align: right;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+.question-vertical .question .number1 {
+  flex: 0 0 auto;
+  width: 100%; 
+  order: 1;
+}
+.question-vertical .question .symbol {
+  flex: 0 0 auto;
+  width: 20%; 
+  order: 2;
+  text-align: left;
+}
+.question-vertical .question .number2 {
+  flex: 0 0 auto;
+  width: 79%; 
+  order: 3;
+}
+.question-vertical .question .equal {
+  flex: 0 0 auto;
+  width: 100%; 
+  order: 4;
+  border-bottom: 1px solid black;
+  margin-bottom: 2mm;
+}
+
+.question-vertical .question .outcome {
+  flex: 0 0 auto;
+  width: 100%; 
+  order: 5;
+  content-visibility: hidden; /* hide the outcome */
+  padding-bottom: 5mm; /* add space for the outcome */
 }

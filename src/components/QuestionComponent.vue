@@ -18,7 +18,7 @@ defineProps({
     <div class="number1">{{ question.number1 }}</div>
     <div class="symbol">{{ question.symbol }}</div>
     <div class="number2">{{ question.number2 }}</div>
-    <div class="equal">=</div>
+    <div class="equal"></div>
     <div class="outcome">{{ question.outcome }}</div>
   </div>
 </template>

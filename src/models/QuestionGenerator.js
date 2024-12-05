@@ -18,7 +18,7 @@ function generateAddition(options) {
   let minOutcome = Math.max(options.minOutcome, options.minNumber * 2);
 
   let randomOutcome = getRadomNum(minOutcome, options.maxOutcome);
-  let randomNumber1 = Math.min(options.minNumber, randomOutcome - options.minNumber);
+  let randomNumber1 = getRadomNum(options.minNumber, randomOutcome - options.minNumber);
 
   let question = new Question();
   question.outcome = randomOutcome;

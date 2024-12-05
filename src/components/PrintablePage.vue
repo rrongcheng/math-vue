@@ -23,9 +23,8 @@ defineProps({
 
 <style> 
 .page {
-  width: 290mm; /* Landscape width */
+  width: 287mm; /* Landscape width */
   height: 200mm; /* Landscape height */
-  background: rgb(150, 196, 240);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   page-break-after: always;
   overflow: hidden;
@@ -35,7 +34,7 @@ defineProps({
 
 @media print {
   .page {
-    border: 1px solid black;
+    /* border: 1px solid black; */
     box-shadow: none;
   }
 }

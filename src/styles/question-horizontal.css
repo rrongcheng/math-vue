@@ -1,0 +1,49 @@
+.question-horizontal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-content: space-between;
+}
+.question-horizontal .question {
+  width: 20mm;
+  margin-bottom: 1rem;
+  border: 1px dotted gray;
+  padding-top: 2mm;
+  padding-bottom: 2mm;
+  padding-left: 2mm;
+  padding-right: 2mm;
+  text-align: right;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+.question-horizontal .question .number1 {
+  flex: 0 0 auto;
+  width: 20%; 
+  order: 1;
+}
+.question-horizontal .question .symbol {
+  flex: 0 0 auto;
+  width: 20%; 
+  order: 2;
+  text-align: left;
+}
+.question-horizontal .question .number2 {
+  flex: 0 0 auto;
+  width: 20%; 
+  order: 3;
+}
+.question-horizontal .question .equal {
+  flex: 0 0 auto;
+  width: 20%; 
+  order: 4;
+}
+.question-horizontal .question .equal::after {
+  content: '=';
+}
+.question-horizontal .question .outcome {
+  flex: 0 0 auto;
+  width: 20%; 
+  order: 5;
+}
