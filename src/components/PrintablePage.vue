@@ -23,18 +23,20 @@ defineProps({
 
 <style> 
 .page {
-  width: 297mm; /* Landscape width */
-  height: 210mm; /* Landscape height */
-  background: white;
-  padding: 20mm;
+  width: 290mm; /* Landscape width */
+  height: 200mm; /* Landscape height */
+  background: rgb(150, 196, 240);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   page-break-after: always;
   overflow: hidden;
+  margin-left: 5mm;
+  margin-right: auto;
 }
 
 @media print {
   .page {
-    page-break-after: always;
+    border: 1px solid black;
+    box-shadow: none;
   }
 }
 </style>

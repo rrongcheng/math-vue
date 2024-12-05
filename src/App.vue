@@ -5,7 +5,7 @@ import { generateAddition } from './models/QuestionGenerator';
 import './styles/question-vertical.css'; // Import the question-vertical.css file
 
 // Data
-const questionPerPage = ref(90);
+const questionPerPage = ref(9);
 const pageTotal = ref(1);
 const questionsEveryPages = ref([]);
 const pageQuestionLayout = ref(localStorage.getItem('pageQuestionLayout') || 'question-vertical'); // Retrieve from localStorage or set default
@@ -39,8 +39,8 @@ onMounted(() => {
 })
 </script>
 <template>
-  <div id="app" class="row">
-    <div class="col-2">
+  <div class="row">
+    <div class="col-2 no-print">
       <div class="row">
         <div class="col-auto">
           <label for="questionTotal">Number of Questions per page</label>
@@ -70,7 +70,6 @@ onMounted(() => {
         :pageClassName="pageQuestionLayout"
       />
     </div>
-    <router-view />
   </div>
 </template>
 <style>
@@ -87,8 +86,7 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px; /* Grey gap between pages */
-  padding: 20px;
+  /* padding: 20px; */
   background-color: #f0f0f0; /* Light grey background */
 }
 
@@ -98,20 +96,16 @@ onMounted(() => {
     size: A4 landscape; /* Set the page size and orientation */
   }
 
-  body * {
-    visibility: hidden;
+  .no-print  {
+    display:none;
   }
-  #printable-area, #printable-area * {
-    visibility: visible;
-  }
+
   #printable-area {
-    position: static;
     width: auto;
     height: auto;
     margin: 0;
     padding: 0;
     box-shadow: none;
-    page-break-after: always;
   }
 }
 
