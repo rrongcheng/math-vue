@@ -1,5 +1,8 @@
 # math-vue
 
+## Demo
+https://rrongcheng.github.io/math-vue/
+
 ## Project setup
 ```
 npm install

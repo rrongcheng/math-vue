@@ -7,8 +7,9 @@
   font-size: 14pt;
 }
 .question-vertical .question {
-  min-width: 20mm;
+  width: 77px;
   border: 1px dotted gray;
+  border-right: 0;
   padding-top: 2mm;
   padding-bottom: 2mm;
   padding-left: 2mm;
@@ -49,4 +50,12 @@
   order: 5;
   content-visibility: hidden; /* hide the outcome */
   padding-bottom: 5mm; /* add space for the outcome */
+}
+
+.question-vertical .question .number1
+, .question-vertical .question .number2
+, .question-vertical .question .outcome {
+  letter-spacing: 2mm;
+  text-align: right;
+  margin-right: -1mm;
 }
