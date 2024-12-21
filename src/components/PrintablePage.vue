@@ -1,9 +1,8 @@
 <script setup>
-import { defineProps } from 'vue';
 import QuestionComponent from './QuestionComponent.vue';
 
 defineProps({
-  questionAll: {
+  pageQuestions: {
     type: Array,
     required: true
   },
@@ -17,7 +16,7 @@ defineProps({
 
 <template>
 <div class="page" :class="pageClassName">
-  <QuestionComponent v-for="(question, index) in questionAll" :key="index" :question="question" />
+  <QuestionComponent v-for="(question, index) in pageQuestions" :key="index" :question="question" />
 </div>
 </template>
 

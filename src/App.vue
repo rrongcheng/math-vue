@@ -1,74 +1,44 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue'
 import PrintablePage from './components/PrintablePage.vue';
-import { generateAddition } from './models/QuestionGenerator';
 import './styles/question-vertical.css'; // Import the question-vertical.css file
 
 // Data
-const questionPerPage = ref(98);
-const pageTotal = ref(1);
-const questionsEveryPages = ref([]);
-const pageQuestionLayout = ref(localStorage.getItem('pageQuestionLayout') || 'question-vertical'); // Retrieve from localStorage or set default
-const maxOutcome = ref(50)
-// Methods
+const pageClassName = ref('');
+const allQuestions = ref([]);
 
-function generateQuestions(){
-  questionsEveryPages.value.length = 0; // Empty the array
-  for (let i = 0; i < pageTotal.value; i++) {
-    const questionsSinglePage = [];
-    for (let j = 0; j < questionPerPage.value; j++) {
-      questionsSinglePage.push(generateAddition({
-        maxOutcome: 50,
-        minOutcome: 30,
-        minNumber: 2,
-      }));
-    }
-    questionsEveryPages.value.push(questionsSinglePage);
-  }
+// Methods
+function setQuestionAll(value){
+  allQuestions.value = value;
 }
 
-// Watchers
-watch(pageQuestionLayout, (newValue) => {
-  localStorage.setItem('pageQuestionLayout', newValue); // Save to localStorage
-});
 
 // Lifecycle hooks
 onMounted(() => {
-  console.log('Component is mounted');
-  generateQuestions();
+  console.log('App.vue is mounted');
 })
 </script>
 <template>
   <div class="row">
     <div class="col-2 no-print">
-      <div class="row">
-        <div class="col-auto">
-          <label for="questionTotal">Number of Questions per page</label>
-          <input type="number" v-model="questionPerPage" class="form-control" />
-        </div>
-        <div class="col-auto">
-          <label for="pageTotal">Number of Pages</label>
-          <input type="number" v-model="pageTotal" class="form-control" />
-        </div>
-        <div class="col-auto">
-          <label for="pageQuestionLayout">Page Question Layout</label>
-          <select v-model="pageQuestionLayout" class="form-select">
-            <option value="question-horizontal">Horizontal</option>
-            <option value="question-vertical">Vertical</option>
-          </select>
-        </div>
-        <div class="col-auto">
-          <button class="btn btn-primary" @click="generateQuestions">Generate Questions</button>
-
-        </div>
-      </div>
+      <nav class="d-flex flex-column">
+        <router-link to="/natural-add-sub">Natural Add Sub</router-link>
+        <router-link to="/fraction-add-sub">Fraction Add Sub</router-link>
+      </nav>
     </div>
     <div id="printable-area" class="col-auto">
-      <PrintablePage v-for="(page, index) in questionsEveryPages" 
+      <PrintablePage v-for="(page, index) in allQuestions" 
         :key="index" 
-        :questionAll="page" 
-        :pageClassName="pageQuestionLayout"
+        :pageQuestions="page" 
+        :pageClassName="pageClassName"
       />
+    </div>
+    <div class="col-2 no-print">
+      <router-view 
+        @questionGenerated="setQuestionAll" 
+        @pageClassNameChanged ="pageClassName = $event"
+      />
+      
     </div>
   </div>
 </template>
@@ -96,7 +66,10 @@ onMounted(() => {
     size: A4 landscape; /* Set the page size and orientation */
   }
 
-  .no-print  {
+  .no-print
+  ,#__vue-devtools-container__
+  ,#vue-inspector-container
+  {
     display:none;
   }
 
