@@ -1,6 +1,5 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue'
-import PrintablePage from './components/PrintablePage.vue';
 import './styles/question-vertical.css'; // Import the question-vertical.css file
 
 // Data
@@ -26,19 +25,8 @@ onMounted(() => {
         <router-link to="/fraction-add-sub">Fraction Add Sub</router-link>
       </nav>
     </div>
-    <div id="printable-area" class="col-auto">
-      <PrintablePage v-for="(page, index) in allQuestions" 
-        :key="index" 
-        :pageQuestions="page" 
-        :pageClassName="pageClassName"
-      />
-    </div>
-    <div class="col-2 no-print">
-      <router-view 
-        @questionGenerated="setQuestionAll" 
-        @pageClassNameChanged ="pageClassName = $event"
-      />
-      
+    <div class="col-10">
+      <router-view />
     </div>
   </div>
 </template>
@@ -52,13 +40,6 @@ onMounted(() => {
   color: #2c3e50;
 }
 
-#printable-area {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  /* padding: 20px; */
-  background-color: #f0f0f0; /* Light grey background */
-}
 
 
 @media print {
@@ -79,6 +60,11 @@ onMounted(() => {
     margin: 0;
     padding: 0;
     box-shadow: none;
+  }
+  .page-a4-landscape {
+    /* border: 1px solid black; */
+    box-shadow: none;
+    margin-bottom: 0px;
   }
 }
 

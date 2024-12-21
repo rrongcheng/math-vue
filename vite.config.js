@@ -6,6 +6,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/math-vue/', // Replace <REPO_NAME> with your GitHub repository name
   plugins: [
     vue(),
     vueDevTools(),
