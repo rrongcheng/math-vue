@@ -1,15 +1,9 @@
 <script setup>
-import { ref, watch, onMounted } from 'vue'
+import { onMounted } from 'vue'
 import './styles/question-vertical.css'; // Import the question-vertical.css file
 
 // Data
-const pageClassName = ref('');
-const allQuestions = ref([]);
-
 // Methods
-function setQuestionAll(value){
-  allQuestions.value = value;
-}
 
 
 // Lifecycle hooks
@@ -18,14 +12,14 @@ onMounted(() => {
 })
 </script>
 <template>
-  <div class="row">
-    <div class="col-2 no-print">
+  <div id="main-page">
+    <div id="main-menu" class="no-print">
       <nav class="d-flex flex-column">
         <router-link to="/natural-add-sub">Natural Add Sub</router-link>
         <router-link to="/fraction-add-sub">Fraction Add Sub</router-link>
       </nav>
     </div>
-    <div class="col-10">
+    <div id="main-content" >
       <router-view />
     </div>
   </div>
@@ -40,6 +34,28 @@ onMounted(() => {
   color: #2c3e50;
 }
 
+/* Main-page is a 2 column row 
+  - the left column is the menu
+    - the menu is a vertical nav
+    - the menu is 30% wide
+  - the right column is the content
+    - the content is 70% wide
+    - the content is a router-view
+*/
+#main-page{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+#main-menu{
+  padding: 10px;
+  background-color: #f8f9fa;
+  flex-grow: 0;
+}
+#main-content{
+  padding: 10px;
+  flex-grow: 1;
+}
 
 
 @media print {

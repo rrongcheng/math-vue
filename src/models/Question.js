@@ -1,11 +1,12 @@
 const SYMBOL = {
-  plus : '+',
-  minus: '-' ,
+  plus : '&plus;',
+  minus: '&minus;',
   times: '&times;',
   divide: '&divide;',
+  parenthesisOpen: '&lpar;',
+  parenthesisClose: '&rpar;',
   equals: '=',
   notEquals : '&ne;'
-
 }
 
 
