@@ -1,6 +1,6 @@
 <script setup>
 import { ref,watch,onMounted } from 'vue';
-import { getRadomNum } from '../models/QuestionGenerator';
+import { getRadomNum, getRandomSubArray,getRandomFromRange } from '../models/QuestionGenerator';
 import { SYMBOL } from '../models/Question';
 
 // Data
@@ -56,16 +56,7 @@ const parentheisQtyRange = [0,0,0,1,1,2];
 /* End of definition of range and possibility */
 
 // Methods
-function getRandomFromRange(range){
-  if (range.length === 0) {
-    console.error('getRadomFromRange: range is empty');
-    return null;
-  }else if (range.length === 1) {
-    return range[0];
-  }else {
-    return range[getRadomNum(0, range.length - 1)];
-  }
-}
+
 function getRandomFaction(baseNumber){
   let fraction ={
     baseNumber: baseNumber,
@@ -84,14 +75,7 @@ function getRandomFaction(baseNumber){
 
   return fraction;
 }
-// randomly pick g value from given array and push to a new array
-function getRandomSubArray(array, qty){
-  const result = [];
-  for (let i = 0; i < qty; i++) {
-    result.push(array[getRadomNum(0, array.length - 1)]);
-  }
-  return result;
-}
+
 
 /**
  * Randomly generate parenthesis position for the question with given positions
@@ -242,7 +226,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div id="panel-container">
+  <div id="fraction-container">
     <div id="question-area" class="page-container " >
       <div class="page-a4-landscape" 
         v-for="(pageQuestions, pageIndex) in allQuestions" :key="pageIndex" 
@@ -282,7 +266,7 @@ onMounted(() => {
 </template>
 
 <style >
-#panel-container {
+#fraction-container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -295,35 +279,8 @@ onMounted(() => {
 
 }
 
-.page-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  background-color: #f0f0f0; /* Light grey background */
-}
-.page-a4-landscape {
-  width: 297mm; /* Landscape width */
-  height: 210mm; /* Landscape height */
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  page-break-after: always;
-  overflow: hidden;
-  background-color: #ffffff; /* White background */
 
-  margin-bottom: 30px;
-}
-.page-a4-landscape>.printable-area{
-  width: 287mm; /* Landscape width - print margin */
-  height: 194mm; /* Landscape height - print margin*/
-  /* border: 1px solid black; */
-  margin: 20px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-}
-
-.question {
+#fraction-container .question {
   margin: 0px;
   padding-left: 10px;
   padding-right: 10px;
@@ -339,45 +296,14 @@ onMounted(() => {
   flex-direction: column;
   text-align: left;
 }
-.question .question-content {
+#fraction-container .question .question-content {
   padding-left: 20px;
 }
-.question .answer-line {
+#fraction-container .question .answer-line {
   border-bottom: 1px dotted #ccc;
   padding-bottom: 60px;
   width: 100%;
 }
 
-.mv-form-column {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  padding: 10px;
-}
-.mv-form-column .mv-form-field {
-  margin-bottom: 10px;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-}
-.mv-form-column .mv-form-field label {
-  text-align: left;
-}
 
-@media print {
-
-  .page-container
-  ,.page-a4-landscape {
-    width: auto;
-    height: auto;
-    margin: 0;
-    padding: 0;
-    box-shadow: none;
-  }
-  .page-a4-landscape>.printable-area {
-    /* border: 1px solid black; */
-    box-shadow: none;
-    margin: 0px;
-  }
-}
 </style>

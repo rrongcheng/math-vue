@@ -1,0 +1,55 @@
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f0f0f0; /* Light grey background */
+}
+.page-a4-landscape {
+  width: 297mm; /* Landscape width */
+  height: 210mm; /* Landscape height */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  page-break-after: always;
+  overflow: hidden;
+  background-color: #ffffff; /* White background */
+
+  margin-bottom: 30px;
+}
+.page-a4-landscape>.printable-area{
+  width: 287mm; /* Landscape width - print margin */
+  height: 194mm; /* Landscape height - print margin*/
+  /* border: 1px solid black; */
+  margin: 20px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+@media print {
+  @page {
+    size: A4 landscape; /* Set the page size and orientation */
+  }
+
+  .no-print
+  ,#__vue-devtools-container__
+  ,#vue-inspector-container
+  {
+    display:none;
+  }
+  
+  .page-container
+  ,.page-a4-landscape {
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+  }
+  .page-a4-landscape>.printable-area {
+    /* border: 1px solid black; */
+    box-shadow: none;
+    margin: 0px;
+  }
+}

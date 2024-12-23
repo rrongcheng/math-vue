@@ -7,13 +7,10 @@
   font-size: 14pt;
 }
 .question-vertical .question {
-  width: 77px;
+  width: 62px;
   border: 1px dotted gray;
   border-right: 0;
-  padding-top: 2mm;
-  padding-bottom: 2mm;
-  padding-left: 2mm;
-  padding-right: 2mm;
+  padding: 7px;
   text-align: right;
   display: flex;
   flex-direction: row;

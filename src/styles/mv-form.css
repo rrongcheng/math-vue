@@ -1,0 +1,16 @@
+
+.mv-form-column {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  padding: 10px;
+}
+.mv-form-column .mv-form-field {
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+.mv-form-column .mv-form-field label {
+  text-align: left;
+}

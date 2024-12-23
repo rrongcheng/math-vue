@@ -14,10 +14,10 @@ onMounted(() => {
 <template>
   <div id="main-page">
     <div id="main-menu" class="no-print">
-      <nav class="d-flex flex-column">
-        <router-link to="/natural-add-sub">Natural Add Sub</router-link>
-        <router-link to="/fraction-add-sub">Fraction Add Sub</router-link>
-      </nav>
+      <div class="menu-item"><router-link to="/natural-add-sub">Natural Add Sub</router-link></div>
+      
+      <div class="menu-item"><router-link to="/fraction-add-sub">Fraction Add Sub</router-link></div>
+      
     </div>
     <div id="main-content" >
       <router-view />
@@ -48,41 +48,13 @@ onMounted(() => {
   flex-wrap: wrap;
 }
 #main-menu{
-  padding: 10px;
-  background-color: #f8f9fa;
-  flex-grow: 0;
+  flex: 0 0 auto;
+  padding: 20px;
 }
 #main-content{
-  padding: 10px;
-  flex-grow: 1;
+  flex: 0 0 auto;
 }
 
-
-@media print {
-  @page {
-    size: A4 landscape; /* Set the page size and orientation */
-  }
-
-  .no-print
-  ,#__vue-devtools-container__
-  ,#vue-inspector-container
-  {
-    display:none;
-  }
-
-  #printable-area {
-    width: auto;
-    height: auto;
-    margin: 0;
-    padding: 0;
-    box-shadow: none;
-  }
-  .page-a4-landscape {
-    /* border: 1px solid black; */
-    box-shadow: none;
-    margin-bottom: 0px;
-  }
-}
 
 
 </style>

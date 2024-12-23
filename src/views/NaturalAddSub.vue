@@ -1,7 +1,7 @@
 <script setup>
-import { ref,watch,onMounted, defineEmits } from 'vue';
-import PrintablePage from '../components/PrintablePage.vue';
-import { generateAddition } from '../models/QuestionGenerator';
+import { ref,watch,onMounted } from 'vue';
+import { generateAddition, getRandomFromRange } from '../models/QuestionGenerator';
+import { SYMBOL } from '@/models/Question';
 
 // Data
 const questionPerPage = ref(98);
@@ -9,6 +9,7 @@ const pageTotal = ref(1);
 const allQuestions = ref([]);
 const pageQuestionLayout = ref(localStorage.getItem('pageQuestionLayout') || 'question-vertical'); // Retrieve from localStorage or set default
 const maxOutcome = ref(localStorage.getItem('maxOutcome') ||50)
+const availableOperations = ref(['addition','subtraction']);
 
 // Methods
 function generateQuestions(){
@@ -16,11 +17,18 @@ function generateQuestions(){
   for (let i = 0; i < pageTotal.value; i++) {
     const questionsSinglePage = [];
     for (let j = 0; j < questionPerPage.value; j++) {
-      questionsSinglePage.push(generateAddition({
+      let newQuestion = generateAddition({
         maxOutcome: maxOutcome.value,
         minOutcome: 30,
         minNumber: 2,
-      }));
+      });
+
+      let operation = getRandomFromRange(availableOperations.value);
+      if (operation === 'subtraction') {
+        newQuestion.symbol = SYMBOL.minus;
+        newQuestion.number1 = newQuestion.outcome;
+      }
+      questionsSinglePage.push(newQuestion);
     }
     allQuestions.value.push(questionsSinglePage);
   }
@@ -42,26 +50,38 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="row">
-    <div id="printable-area" class="col-auto" >
-      <PrintablePage v-for="(page, index) in allQuestions" 
-        :key="index" 
-        :pageQuestions="page" 
-        :pageClassName="pageQuestionLayout"
-      />
+  <div id="natural-container" >
+    <div id="question-area" class="page-container " >
+      <div class="page-a4-landscape" :class="pageQuestionLayout"
+        v-for="(pageQuestions, pageIndex) in allQuestions" :key="pageIndex"
+      >
+        <div class="printable-area">
+          <div class="question" v-for="(question, questionIndex) in pageQuestions" :key="questionIndex">
+            <div class="number1">{{ question.number1 }}</div>
+            <div class="symbol" v-html="question.symbol"></div>
+            <div class="number2">{{ question.number2 }}</div>
+            <div class="equal"></div>
+            <div class="outcome">{{ question.outcome }}</div>
+          </div>
+        </div>
+      </div>
     </div>
-  <div class="col-2 no-print">
+  <div id="config-area" class="no-print">
     <h2>Natural Add Sub</h2>
-    <div class="row">
-      <div class="col-auto">
+    <div class="mv-form-column">
+      <div class="mv-form-field">
+        <button class="btn btn-primary" @click="generateQuestions">Generate Questions</button>
+
+      </div>
+      <div class="mv-form-field">
         <label for="questionTotal">Number of Questions per page</label>
         <input type="number" v-model="questionPerPage" class="form-control" />
       </div>
-      <div class="col-auto">
+      <div class="mv-form-field">
         <label for="pageTotal">Number of Pages</label>
         <input type="number" v-model="pageTotal" class="form-control" />
       </div>
-      <div class="col-auto">
+      <div class="mv-form-field">
         <label for="pageQuestionLayout">Page Question Layout</label>
         <select v-model="pageQuestionLayout" class="form-select"
         >
@@ -69,49 +89,42 @@ onMounted(() => {
           <option value="question-vertical">Vertical</option>
         </select>
       </div>
-      <div class="col-auto">
+      <div class="mv-form-field">
         <label for="maxOutcome">Max outcome</label>
         <input type="number" v-model="maxOutcome" class="form-control" />
       </div>
-      <div class="col-auto">
-        <button class="btn btn-primary" @click="generateQuestions">Generate Questions</button>
 
+      <!-- Config Operations -->
+      <div class="mv-form-field">
+        <fieldset>
+          <legend>Operations</legend>
+          <div>
+            <input type="checkbox" name="addition" value="addition" v-model="availableOperations">
+            <label for="availableOperations">Addition</label>
+          </div>
+          <div>
+            <input type="checkbox" name="subtraction" value="subtraction" v-model="availableOperations">
+            <label for="availableOperations">Subtraction</label>
+          </div>
+        </fieldset>
       </div>
     </div>
   </div>
   </div>
 </template>
 <style scoped>
-#printable-area {
+#natural-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  /* padding: 20px; */
-  background-color: #f0f0f0; /* Light grey background */
+  flex-direction: row;
+  flex-wrap: wrap;
 }
-.page-a4-landscape {
-  width: 287mm; /* Landscape width */
-  height: 200mm; /* Landscape height */
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  page-break-after: always;
-  overflow: hidden;
-  margin-left: 5mm;
-  margin-right: auto;
-  margin-bottom: 50px;
+#question-area {
+  flex: 0 0 auto;
 }
-@media print {
+#config-area {
+  flex: 0 0 auto;
 
-  #printable-area {
-    width: auto;
-    height: auto;
-    margin: 0;
-    padding: 0;
-    box-shadow: none;
-  }
-  .page-a4-landscape {
-    /* border: 1px solid black; */
-    box-shadow: none;
-    margin-bottom: 0px;
-  }
 }
+
+
 </style>
