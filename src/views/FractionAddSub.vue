@@ -36,7 +36,6 @@ watch(fractionQty, (newValue) => {
 */
 const fractionBaseRange = [2,2,2,3,3,3,5];
 const fractionTimesRange = [1,1,1,1,1,2,2,2,2,3,4,5];
-const parentheisQtyRange = [0,0,0,1,1,2];
 
 // Operations and their percentage
 const OperationRange = [
@@ -52,12 +51,8 @@ const OperationRange = [
   SYMBOL.plus
 ];
 
-const ParenthesisRange = [
-  { openAt: 1, closeAt: 5, random: true}, /* Randomly include from 1st to 5th fraction */
-  { openAt: 1, closeAt: 2 }, /* include 1st and 2nd fraction */
-  { openAt: 3, closeAt: 4 },
-  { openAt: 0, closeAt: 0 } /* No Parenthesis */
-];
+const parentheisQtyRange = [0,0,0,1,1,2];
+
 /* End of definition of range and possibility */
 
 // Methods
@@ -97,10 +92,77 @@ function getRandomSubArray(array, qty){
   }
   return result;
 }
+
+/**
+ * Randomly generate parenthesis position for the question with given positions
+ * @param {Array} parenthesis
+ * parenthesis: 
+ *   - 2D array to represent the position of parenthesis
+ *   - fixed length when pass into this function
+ * 
+ * e.g. ((1+2)*3)/4 > parenthesis = [[open,open],[close],[close],[]]
+ * 
+ * e.g. (1*(2+3))/4 > [[open],[open],[close,close],[]]
+ * 
+ * e.g. (1+2)/(3+4) > [[open],[close],[open],[close]]
+ */
+function generateParenthesisPosition(parenthesis){
+  let numberQty = parenthesis.length;
+
+  // If total of number less than 2, no need to add parenthesis
+  if (numberQty <= 2) {
+    return parenthesis;
+  }
+
+  // Randomly pick a position to start the parenthesis from 0 to the 2nd last number 
+  let startAt = getRadomNum(0, numberQty - 1 - 1);
+  let endAt = null;
+  let rangeTo = startAt + 1;
+
+  /* check if enough space for the parenthesis */
+  // if startAt already have parenthesis end, then skip this round
+  if (parenthesis[startAt].includes('close')) {
+    return parenthesis;
+  }
+
+  
+  // Find a range to the end or next parenthesis
+  for (let i = rangeTo; i < numberQty -1; i++){
+    if (parenthesis[i].length > 0) {
+      // If this position has a close parenthesis, then skip this round
+      if (parenthesis[i].includes('close')) {
+        return parenthesis;
+      }
+      // Otherwise, this position has a open parenthesis, then set the range to this position
+      rangeTo = i;
+      break;
+    }
+  }  
+  // randomly pick a position to end the parenthesis
+  endAt = getRadomNum(startAt+1, rangeTo);
+
+  // if startAt and endAt already have parenthesis, then skip this round
+  if (parenthesis[startAt].includes('open') 
+    && parenthesis[endAt].includes('close')
+  ) {
+    return parenthesis;
+  }
+
+  // Add parenthesis to the position
+  parenthesis[startAt].push('open');
+  parenthesis[endAt].push('close');
+
+  return parenthesis;
+}
+
+/**
+ * Generate a question from fractions
+ */
 function generateFractionQuestion(){
   console.debug('generate Fraction question');
   let fractions = [];
   let operations = [];
+  let parenthesis = [];
 
   const baseLimit = getRandomFromRange([1,1,1,2,2,3]);
   const parenthesisQty = getRandomFromRange(parentheisQtyRange);
@@ -120,6 +182,12 @@ function generateFractionQuestion(){
   }
   
   // Generate Parenthesis for this question
+  for (let i = 0; i < fractionQty.value; i++) {
+    parenthesis.push([]);
+  }
+  for (let i = 0; i < parenthesisQty; i++) {
+    parenthesis = generateParenthesisPosition(parenthesis);
+  }
 
   // Adjust the 1st fraction to avoid negative result
   // Add whole number of length of fractions - 1 to the 1st fraction
@@ -128,7 +196,25 @@ function generateFractionQuestion(){
   // Generate question MathML
   let questionMathML = '<math>';
   for (let i = 0; i < fractions.length; i++) {
+    let positionParenthesis = parenthesis[i];   
+    
+    // Add parenthesis star before the number(fraction)
+    for (let j = 0; j < positionParenthesis.length; j++) {
+      if (positionParenthesis[j] === 'open') {
+        questionMathML += `<mo>${SYMBOL.parenthesisOpen}</mo>`;
+      }
+    }
+    // add the fraction
     questionMathML += fractions[i].getMathML();
+
+    // Add parenthesis end after the number(fraction)
+    for (let j = 0; j < positionParenthesis.length; j++) {
+      if (positionParenthesis[j] === 'close') {
+        questionMathML += `<mo>${SYMBOL.parenthesisClose}</mo>`;
+      }
+    }
+
+    // Add operation symbol
     if (i < operations.length) {
       questionMathML += `<mo>${operations[i]}</mo>`;
     }
@@ -136,6 +222,7 @@ function generateFractionQuestion(){
   questionMathML += '</math>';
   return questionMathML;
 }
+
 function generateQuestions(){
   allQuestions.value = [];
   for (let i = 0; i < pageTotal.value; i++) {
@@ -223,7 +310,7 @@ onMounted(() => {
   overflow: hidden;
   background-color: #ffffff; /* White background */
 
-  
+  margin-bottom: 30px;
 }
 .page-a4-landscape>.printable-area{
   width: 287mm; /* Landscape width - print margin */

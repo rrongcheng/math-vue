@@ -4,7 +4,7 @@ var getRadomNum = function (from, to) {
   from = from || 0;
   to = to || 20;
   let range = to - from;
-  return Math.trunc(Math.random() * 1000) % range + 1 + from;
+  return (range>0)? (Math.trunc(Math.random() * 1000) % range + 1 + from) : from;
 }
 
 function generateAddition(options) {
