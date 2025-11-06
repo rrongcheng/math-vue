@@ -71,8 +71,34 @@ function generateAddition(options) {
   return question;
 }
 
+/**
+ * 
+ * @param {Object} options 
+ * @returns  a question with multiple operation
+ */
+function generateMultiple(options) {
+  let defaultOptions = {
+    maxMultiplicand: 9,
+    maxMultiplier: 9,
+    minMultiplicand: 1,
+    minMultiplier: 1,
+  }
+  options = Object.assign(defaultOptions, options);
+
+
+  let randomMultiplicand = getRadomNum(options.minMultiplicand, options.maxMultiplicand);
+  let randomultiplier = getRadomNum(options.minMultiplier, options.maxMultiplier);
+
+  let question = new Question();
+  question.outcome = randomMultiplicand * randomultiplier;
+  question.number1 = randomMultiplicand;
+  question.number2 = randomultiplier;
+  question.symbol = SYMBOL.times;
+  
+  return question;
+}
 
 
 export {generateAddition, getRadomNum, getRandomSubArray
-  ,getRandomFromRange
+  ,getRandomFromRange,generateMultiple
 };

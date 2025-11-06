@@ -51,7 +51,7 @@ const OperationRange = [
   SYMBOL.plus
 ];
 
-const parentheisQtyRange = [0,0,0,1,1,2];
+const parentheisQtyRange = [2];
 
 /* End of definition of range and possibility */
 
