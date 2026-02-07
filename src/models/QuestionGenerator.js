@@ -99,6 +99,10 @@ function generateMultiple(options) {
 }
 
 
-export {generateAddition, getRadomNum, getRandomSubArray
-  ,getRandomFromRange,generateMultiple
+export {
+  generateAddition
+  ,getRadomNum
+  ,getRandomSubArray
+  ,getRandomFromRange
+  ,generateMultiple
 };

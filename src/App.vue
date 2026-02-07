@@ -17,6 +17,7 @@ onMounted(() => {
     <div id="main-menu" class="no-print">
       <div class="menu-item"><router-link to="/natural-add-sub">Natural Add Sub</router-link></div>
       <div class="menu-item"><router-link to="/natural-multiple">Natural Multiple</router-link></div>
+      <div class="menu-item"><router-link to="/natural-division">Natural Division</router-link></div>
       
       <div class="menu-item"><router-link to="/fraction-add-sub">Fraction Add Sub</router-link></div>
       
